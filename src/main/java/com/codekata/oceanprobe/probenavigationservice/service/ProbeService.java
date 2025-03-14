@@ -16,4 +16,8 @@ public class ProbeService {
        return probeRepository.findById(probeId)
                 .orElseThrow(()->new DataNotFoundException("Probe not found with ID: " + probeId));
     }
+
+    public Probe updateProbe(UUID probeId, Probe mockProbe) {
+        return null;
+    }
 }

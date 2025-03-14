@@ -74,4 +74,46 @@ public class ProbeServiceTest {
         // Verify repository method was called
         verify(probeRepository, times(1)).findById(probeId);
     }
+
+    @Test
+    public void givenExistingProbe_whenUpdateProbe_thenProbeIsUpdatedSuccessfully() {
+        // Given: Probe exists in database
+        when(probeRepository.findById(probeId)).thenReturn(Optional.of(mockProbe));
+
+        // When: Updating the probe’s position and direction
+        mockProbe.setXPosition(5);
+        mockProbe.setYPosition(1);
+        mockProbe.setDirection(Probe.Direction.SOUTH);
+
+        when(probeRepository.save(mockProbe)).thenReturn(mockProbe);
+
+        Probe updatedProbe = probeService.updateProbe(probeId, mockProbe);
+
+        // Then: Verify updated probe attributes
+        assertNotNull(updatedProbe);
+        assertEquals(5, updatedProbe.getXPosition());
+        assertEquals(1, updatedProbe.getYPosition());
+        assertEquals(Probe.Direction.SOUTH, updatedProbe.getDirection());
+
+        // Verify that repository methods were called
+        verify(probeRepository, times(1)).findById(probeId);
+        verify(probeRepository, times(1)).save(mockProbe);
+    }
+
+    @Test
+    public void givenNonExistentProbe_whenUpdateProbe_thenThrowDataNotFoundException() {
+        // Given: Probe does not exist
+        when(probeRepository.findById(probeId)).thenReturn(Optional.empty());
+
+        // When & Then: Expect DataNotFoundException
+        Exception exception = assertThrows(DataNotFoundException.class, () -> {
+            probeService.updateProbe(probeId, mockProbe);
+        });
+
+        assertEquals("Probe not found with ID: " + probeId, exception.getMessage());
+
+        // Verify repository method calls
+        verify(probeRepository, times(1)).findById(probeId);
+        verify(probeRepository, times(0)).save(any());
+    }
 }
