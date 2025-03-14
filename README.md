@@ -22,7 +22,52 @@ This service provide APIs Register a probe and control the probe navigation usin
 ---
 
 ## 📚 API Documentation 
-- Swagger UI: --TODO--
+- Swagger UI: [API documentation](http://localhost:8080/swagger-ui.html)
+
+### **🚀 Register Probe API**
+This API allows registering a new **probe** in the ocean navigation system. The probe will be assigned a unique ID and initial position.
+---
+### **👉 API Endpoint**
+```
+POST /api/probes/register
+```
+
+### **👉 Request Body**
+```json
+{
+  "name": "Explorer-1",
+  "xPosition": 0,
+  "yPosition": 0,
+  "direction": "NORTH"
+}
+```
+
+### **👉 Request Parameters**
+| Parameter   | Type     | Description                                                 | Required |
+|-------------|----------|-------------------------------------------------------------|----------|
+| `name`      | `string` | Name of the probe                                           | ✅ Yes    |
+| `xPosition` | `int`    | Initial X position on the grid                              | ✅ Yes    |
+| `yPosition` | `int`    | Initial Y position on the grid                              | ✅ Yes    |
+| `direction` | `enum`   | Initial facing direction (`NORTH`, `SOUTH`, `EAST`, `WEST`) | ✅ Yes    |
+
+### **👉 Response**
+#### ✅ **Success Response (201 Created)**
+```json
+{
+  "id": "550e8400-e29b-41d4-a716-446655440000",
+  "name": "Explorer-1",
+  "xPosition": 0,
+  "yPosition": 0,
+  "direction": "NORTH",
+  "status": "ACTIVE"
+}
+```
+
+#### ❌ **Error Responses**
+| HTTP Status       | Error Message               | Reason                                  |
+|-------------------|-----------------------------|-----------------------------------------|
+| `400 Bad Request` | `Invalid input data`        | Missing or incorrect request parameters |
+| `409 Conflict`    | `Probe name already exists` | A probe with the same name exists       |
 
 ---
 
