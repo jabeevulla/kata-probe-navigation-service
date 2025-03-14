@@ -49,6 +49,15 @@ mvn spring-boot:run
 TODO - Add CURL
 ```
 
+### **6️⃣ Access Local Database**
+-	Start your Spring Boot application.
+-	Open the browser and go to:
+👉 http://localhost:8080/h2-console
+-	Enter the following credentials:
+-	JDBC URL: jdbc:h2:mem:probe_db
+-	Username: sa
+-	Password: password
+
 ---
 ### **🛠️ Project Structure**
 ```
