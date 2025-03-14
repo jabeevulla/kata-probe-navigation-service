@@ -261,6 +261,40 @@ Each entry in the DIRECTIONS array represents a movement (Row, Column):
 private static final int[][] DIRECTIONS = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
 ```
 
+### **📂Database Design**
+```mermaid
+erDiagram
+
+    PROBES {
+        UUID id PK
+        VARCHAR(255) name
+        INT x_position
+        INT y_position
+        VARCHAR(10) direction
+        TIMESTAMP created_at
+        TIMESTAMP updated_at
+    }
+
+    NAVIGATION_TRAIL {
+        UUID id PK
+        UUID probe_id FK
+        INT x_position
+        INT y_position
+        VARCHAR(10) direction
+        TIMESTAMP moved_at
+    }
+
+    OCEAN_FLOOR {
+        INT id PK
+        INT x_position
+        INT y_position
+        BOOLEAN is_obstacle
+    }
+
+    PROBES ||--o{ NAVIGATION_TRAIL : "has many"
+    NAVIGATION_TRAIL }|--|| PROBES : "belongs to"
+```
+
 ### **🔁 Algorithms Used**
 No search algorithms are considered as all the options required for features deal with precise know location (Current position).
 
