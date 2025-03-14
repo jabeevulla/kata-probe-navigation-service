@@ -17,11 +17,23 @@ public class ProbeService {
 
     @Autowired
     ProbeRepository probeRepository;
+
+    /**
+     * Find Probe by ID
+     * @param probeId
+     * @return
+     */
     public Probe getProbeById(UUID probeId) {
        return probeRepository.findById(probeId)
                 .orElseThrow(()->new DataNotFoundException("Probe not found with ID: " + probeId));
     }
 
+    /**
+     * Create new Probe or update existing Probe
+     * @param id
+     * @param probeData
+     * @return
+     */
     public Probe saveOrUpdateProbe(UUID id, Probe probeData) {
         Optional<Probe> existingProbeOpt = probeRepository.findById(id);
 
@@ -36,7 +48,6 @@ public class ProbeService {
         probe.setXPosition(probeData.getXPosition());
         probe.setYPosition(probeData.getYPosition());
         probe.setDirection(probeData.getDirection());
-
         return probeRepository.save(probe);
     }
 }
