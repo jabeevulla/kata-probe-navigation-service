@@ -34,7 +34,7 @@ public class ProbeControllerIT {
         requestDTO.setYPosition(0);
         requestDTO.setDirection(Probe.Direction.NORTH);
 
-        mockMvc.perform(post("/api/probes/register")
+        mockMvc.perform(post("/api/v1/probes/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestDTO)))
                 .andExpect(status().isCreated())

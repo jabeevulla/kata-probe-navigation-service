@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/probes")
+@RequestMapping("/api/v1/probes")
 @Tag(name = "Probe Controller", description = "APIs for managing ocean probes")
 public class ProbeController {
 
@@ -24,7 +24,7 @@ public class ProbeController {
 
     @PostMapping("/register")
     @Operation(summary = "Register a new probe", description = "Creates a new probe with the specified name and initial position.")
-    public ResponseEntity<RegisterProbeResponseDTO> registerProbe(@Valid @RequestBody RegisterProbeRequestDTO request) throws BadRequestException {
+    public ResponseEntity<RegisterProbeResponseDTO> registerProbe(@Valid @RequestBody RegisterProbeRequestDTO request) {
         Probe createdProbe = probeService.registerProbe(request);
         RegisterProbeResponseDTO responseDTO = new RegisterProbeResponseDTO(
                 createdProbe.getId(),
