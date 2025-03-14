@@ -1,6 +1,7 @@
 package com.codekata.oceanprobe.probenavigationservice.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
@@ -10,6 +11,7 @@ import java.util.UUID;
 @Table(name = "navigation_trail")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class NavigationTrail {
 
     @Id
