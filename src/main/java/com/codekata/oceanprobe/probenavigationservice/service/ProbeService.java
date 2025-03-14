@@ -2,10 +2,9 @@ package com.codekata.oceanprobe.probenavigationservice.service;
 
 import com.codekata.oceanprobe.probenavigationservice.dto.RegisterProbeRequestDTO;
 import com.codekata.oceanprobe.probenavigationservice.entity.Probe;
-import com.codekata.oceanprobe.probenavigationservice.exception.ConflictException;
+import com.codekata.oceanprobe.probenavigationservice.exception.BadRequestException;
 import com.codekata.oceanprobe.probenavigationservice.exception.DataNotFoundException;
 import com.codekata.oceanprobe.probenavigationservice.repository.ProbeRepository;
-import org.apache.coyote.BadRequestException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,7 +60,7 @@ public class ProbeService {
      * @return Probe entity after saving
      * @throws BadRequestException if request fields are missing
      */
-    public Probe registerProbe(RegisterProbeRequestDTO request) throws BadRequestException {
+    public Probe registerProbe(RegisterProbeRequestDTO request) {
         if (request.getName() == null || request.getName().trim().isEmpty()) {
             throw new BadRequestException("Probe name is required");
         }

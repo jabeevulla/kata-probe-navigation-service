@@ -57,7 +57,7 @@ public class ProbeControllerTest {
         Mockito.doThrow(new BadRequestException("Probe name is required"))
                 .when(probeService).registerProbe(any());
 
-        mockMvc.perform(post("/api/probes/register")
+        mockMvc.perform(post("/api/v1/probes/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestDTO)))
                 .andExpect(status().isBadRequest())
@@ -75,7 +75,7 @@ public class ProbeControllerTest {
         Mockito.doThrow(new ConflictException("Probe name already exists"))
                 .when(probeService).registerProbe(any());
 
-        mockMvc.perform(post("/api/probes/register")
+        mockMvc.perform(post("/api/v1/probes/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestDTO)))
                 .andExpect(status().isConflict())
@@ -101,7 +101,7 @@ public class ProbeControllerTest {
                 new Probe(probeId, "Explorer-1", 0, 0, Probe.Direction.NORTH, LocalDateTime.now(), LocalDateTime.now())
         );
 
-        mockMvc.perform(post("/api/probes/register")
+        mockMvc.perform(post("/api/v1/probes/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestDTO)))
                 .andExpect(status().isCreated()) // ✅ Expect HTTP 201 Created
