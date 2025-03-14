@@ -22,6 +22,7 @@ public class NavigationTrail {
     @JoinColumn(name = "probe_id", nullable = false)
     private Probe probe;
 
+
     @Column(name = "x_position", nullable = false)
     private int xPosition;
 
