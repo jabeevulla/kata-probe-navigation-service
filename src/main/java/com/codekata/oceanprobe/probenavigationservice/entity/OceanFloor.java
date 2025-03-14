@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "ocean_floor")
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class OceanFloor {
 
     @Id

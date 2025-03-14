@@ -53,7 +53,7 @@ public class OceanFloorRepositoryTest {
         List<OceanFloor> oceanFloorList = oceanFloorRepository.findAllSorted();
 
         // Then: Ensure correct number of entries
-        assertEquals(10, oceanFloorList.size(), "Expected 10 rows in the ocean floor grid");
+        assertEquals(15, oceanFloorList.size(), "Expected 15 rows in the ocean floor grid");
 
         // Then: Check sorting - first row's first entry should be (0,0)
         assertEquals(0, oceanFloorList.get(0).getYPosition());
