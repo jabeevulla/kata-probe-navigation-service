@@ -22,7 +22,7 @@ This service provide APIs Register a probe and control the probe navigation usin
 ---
 
 ## 📚 API Documentation 
-- Swagger UI: [API documentation](http://localhost:8080/)
+- Swagger UI: [API documentation](http://localhost:8080/swagger-ui.html)
 
 ### **🚀 Register Probe API**
 This API allows registering a new **probe** in the ocean navigation system. The probe will be assigned a unique ID and initial position.
