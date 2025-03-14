@@ -6,11 +6,13 @@ spring:
     driver-class-name: org.h2.Driver
     username: sa
     password: password
-    jpa:
-      database-platform: org.hibernate.dialect.H2Dialect
-      hibernate:
-        ddl-auto: update  # Options: create, update, validate, none
-      show-sql: true  # Logs SQL queries for debugging
+    defer-datasource-initialization: true # ✅ Ensures data.sql runs after schema creation
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update  # Options: create, update, validate, none
+    show-sql: true  # Logs SQL queries for debugging
+    defer-datasource-initialization: true # ✅ Ensures data.sql runs after schema creation
   h2:
     console:
       enabled: true
