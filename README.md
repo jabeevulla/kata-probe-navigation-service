@@ -49,6 +49,15 @@ mvn spring-boot:run
 TODO - Add CURL
 ```
 
+### **6️⃣ Access Local Database**
+-	Start your Spring Boot application.
+-	Open the browser and go to:
+👉 http://localhost:8080/h2-console
+-	Enter the following credentials:
+-	JDBC URL: jdbc:h2:mem:probe_db
+-	Username: sa
+-	Password: password
+
 ---
 ### **🛠️ Project Structure**
 ```
@@ -259,6 +268,40 @@ Each entry in the DIRECTIONS array represents a movement (Row, Column):
 ```java
 // Directions for moving Up, Down, Left, Right
 private static final int[][] DIRECTIONS = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+```
+
+### **📂Database Design**
+```mermaid
+erDiagram
+
+    PROBES {
+        UUID id PK
+        VARCHAR(255) name
+        INT x_position
+        INT y_position
+        VARCHAR(10) direction
+        TIMESTAMP created_at
+        TIMESTAMP updated_at
+    }
+
+    NAVIGATION_TRAIL {
+        UUID id PK
+        UUID probe_id FK
+        INT x_position
+        INT y_position
+        VARCHAR(10) direction
+        TIMESTAMP moved_at
+    }
+
+    OCEAN_FLOOR {
+        INT id PK
+        INT x_position
+        INT y_position
+        BOOLEAN is_obstacle
+    }
+
+    PROBES ||--o{ NAVIGATION_TRAIL : "has many"
+    NAVIGATION_TRAIL }|--|| PROBES : "belongs to"
 ```
 
 ### **🔁 Algorithms Used**
