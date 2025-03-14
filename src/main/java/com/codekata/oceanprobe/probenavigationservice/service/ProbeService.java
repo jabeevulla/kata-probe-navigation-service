@@ -30,16 +30,15 @@ public class ProbeService {
 
     /**
      * Create new Probe or update existing Probe
-     * @param id
      * @param probeData
      * @return
      */
-    public Probe saveOrUpdateProbe(UUID id, Probe probeData) {
-        Optional<Probe> existingProbeOpt = probeRepository.findById(id);
+    public Probe saveOrUpdateProbe(Probe probeData) {
+        Optional<Probe> existingProbeOpt = probeRepository.findById(probeData.getId());
 
         Probe probe = existingProbeOpt.orElseGet(() -> {
             Probe newProbe = new Probe();
-            newProbe.setId(id); // Set the ID for the new probe
+            newProbe.setId(UUID.randomUUID());
             return newProbe;
         });
 

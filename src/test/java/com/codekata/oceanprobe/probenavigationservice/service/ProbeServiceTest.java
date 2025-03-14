@@ -89,7 +89,7 @@ public class ProbeServiceTest {
         when(probeRepository.save(any(Probe.class))).thenReturn(mockProbe);
 
         // When: Updating the probe
-        Probe updatedProbe = probeService.saveOrUpdateProbe(probeId, mockProbe);
+        Probe updatedProbe = probeService.saveOrUpdateProbe(mockProbe);
 
         // Then: Verify updated probe attributes
         assertNotNull(updatedProbe);
@@ -110,7 +110,7 @@ public class ProbeServiceTest {
         when(probeRepository.save(any(Probe.class))).thenReturn(mockProbe);
 
         // When: Creating a new probe
-        Probe newProbe = probeService.saveOrUpdateProbe(probeId, mockProbe);
+        Probe newProbe = probeService.saveOrUpdateProbe(mockProbe);
 
         // Then: Verify the newly created probe
         assertNotNull(newProbe);
