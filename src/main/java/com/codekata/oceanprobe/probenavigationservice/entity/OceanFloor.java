@@ -1,13 +1,14 @@
 package com.codekata.oceanprobe.probenavigationservice.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "ocean_floor")
 @Data
-@NoArgsConstructor
+@AllArgsConstructor
 public class OceanFloor {
 
     @Id
