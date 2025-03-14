@@ -21,56 +21,6 @@ This service provide APIs Register a probe and control the probe navigation usin
 
 ---
 
-## 📚 API Documentation 
-- Swagger UI: [API documentation](http://localhost:8080/swagger-ui.html)
-
-### **🚀 Register Probe API**
-This API allows registering a new **probe** in the ocean navigation system. The probe will be assigned a unique ID and initial position.
----
-### **👉 API Endpoint**
-```
-POST /api/probes/register
-```
-
-### **👉 Request Body**
-```json
-{
-  "name": "Explorer-1",
-  "xPosition": 0,
-  "yPosition": 0,
-  "direction": "NORTH"
-}
-```
-
-### **👉 Request Parameters**
-| Parameter   | Type     | Description                                                 | Required |
-|-------------|----------|-------------------------------------------------------------|----------|
-| `name`      | `string` | Name of the probe                                           | ✅ Yes    |
-| `xPosition` | `int`    | Initial X position on the grid                              | ✅ Yes    |
-| `yPosition` | `int`    | Initial Y position on the grid                              | ✅ Yes    |
-| `direction` | `enum`   | Initial facing direction (`NORTH`, `SOUTH`, `EAST`, `WEST`) | ✅ Yes    |
-
-### **👉 Response**
-#### ✅ **Success Response (201 Created)**
-```json
-{
-  "id": "550e8400-e29b-41d4-a716-446655440000",
-  "name": "Explorer-1",
-  "xPosition": 0,
-  "yPosition": 0,
-  "direction": "NORTH",
-  "status": "ACTIVE"
-}
-```
-
-#### ❌ **Error Responses**
-| HTTP Status       | Error Message               | Reason                                  |
-|-------------------|-----------------------------|-----------------------------------------|
-| `400 Bad Request` | `Invalid input data`        | Missing or incorrect request parameters |
-| `409 Conflict`    | `Probe name already exists` | A probe with the same name exists       |
-
----
-
 ## 🚀 Quick Start Guide
 ### **1️⃣ Prerequisites**
 Ensure you have the following installed:
@@ -354,6 +304,202 @@ No search algorithms are considered as all the options required for features dea
 
 ### **🔄 Data Flow** 
 TODO
+
+
+### 📚 API Documentation
+- Swagger UI: [API documentation](http://localhost:8080/swagger-ui.html)
+
+#### **🚀 Register Probe API**
+
+This API allows registering a new **probe** in the ocean navigation system. The probe will be assigned a unique ID and initial position.
+
+---
+**👉 API Endpoint**
+```
+POST /api/probes/register
+```
+
+**👉 Request Body**
+```json
+{
+  "name": "Explorer-1",
+  "xPosition": 0,
+  "yPosition": 0,
+  "direction": "NORTH"
+}
+```
+
+**👉 Request Parameters**
+
+| Parameter   | Type     | Description                                                 | Required |
+|-------------|----------|-------------------------------------------------------------|----------|
+| `name`      | `string` | Name of the probe                                           | ✅ Yes    |
+| `xPosition` | `int`    | Initial X position on the grid                              | ✅ Yes    |
+| `yPosition` | `int`    | Initial Y position on the grid                              | ✅ Yes    |
+| `direction` | `enum`   | Initial facing direction (`NORTH`, `SOUTH`, `EAST`, `WEST`) | ✅ Yes    |
+
+**👉 Response**
+
+✅ **Success Response (201 Created)**
+```json
+{
+  "id": "550e8400-e29b-41d4-a716-446655440000",
+  "name": "Explorer-1",
+  "xPosition": 0,
+  "yPosition": 0,
+  "direction": "NORTH",
+  "status": "ACTIVE"
+}
+```
+
+❌ **Error Responses**
+
+| HTTP Status       | Error Message               | Reason                                  |
+|-------------------|-----------------------------|-----------------------------------------|
+| `400 Bad Request` | `Invalid input data`        | Missing or incorrect request parameters |
+| `409 Conflict`    | `Probe name already exists` | A probe with the same name exists       |
+
+---
+
+## 📚 API Documentation
+- Swagger UI: [API documentation](http://localhost:8080/swagger-ui.html)
+
+### **🚀 Register Probe API**
+This API allows registering a new **probe** in the ocean navigation system. The probe will be assigned a unique ID and initial position.
+---
+### **👉 API Endpoint**
+```
+POST /api/probes/register
+```
+
+### **👉 Request Body**
+```json
+{
+  "name": "Explorer-1",
+  "xPosition": 0,
+  "yPosition": 0,
+  "direction": "NORTH"
+}
+```
+
+### **👉 Request Parameters**
+| Parameter   | Type     | Description                                                 | Required |
+|-------------|----------|-------------------------------------------------------------|----------|
+| `name`      | `string` | Name of the probe                                           | ✅ Yes    |
+| `xPosition` | `int`    | Initial X position on the grid                              | ✅ Yes    |
+| `yPosition` | `int`    | Initial Y position on the grid                              | ✅ Yes    |
+| `direction` | `enum`   | Initial facing direction (`NORTH`, `SOUTH`, `EAST`, `WEST`) | ✅ Yes    |
+
+### **👉 Response**
+#### ✅ **Success Response (201 Created)**
+```json
+{
+  "id": "550e8400-e29b-41d4-a716-446655440000",
+  "name": "Explorer-1",
+  "xPosition": 0,
+  "yPosition": 0,
+  "direction": "NORTH",
+  "status": "ACTIVE"
+}
+```
+
+#### ❌ **Error Responses**
+| HTTP Status       | Error Message               | Reason                                  |
+|-------------------|-----------------------------|-----------------------------------------|
+| `400 Bad Request` | `Invalid input data`        | Missing or incorrect request parameters |
+| `409 Conflict`    | `Probe name already exists` | A probe with the same name exists       |
+
+---
+
+### 🚀 Probe Navigation API Design
+
+The **Probe Navigation API** enables controlling a probe within a 2D grid environment. The probe can:
+- Move **forwards** and **backwards**.
+- Turn **left** and **right**.
+- **Stay within the grid boundaries**.
+- **Avoid obstacles** placed in the grid.
+- **Log its navigation trail** (visited coordinates).
+
+---
+
+#### 📍 **API Endpoints**
+
+🔹 **Move Probe**
+
+**Endpoint:**
+```http
+POST /api/probes/{probeId}/move
+```
+
+**Request Body:**
+```json
+{
+  "commands": ["F", "L", "B", "R"]
+}
+```
+
+**Command Options:**
+
+| Command | Action        |
+|---------|---------------|
+| `F`     | Move Forward  |
+| `B`     | Move Backward |
+| `L`     | Turn Left     |
+| `R`     | Turn Right    |
+
+**Response:**
+
+```json
+{
+  "probeId": "uuid",
+  "finalPosition": { "x": 2, "y": 3 },
+  "finalDirection": "NORTH",
+  "navigationTrail": [
+    { "x": 1, "y": 1 },
+    { "x": 1, "y": 2 },
+    { "x": 2, "y": 2 },
+    { "x": 2, "y": 3 }
+  ],
+  "status": "COMPLETED"
+}
+```
+
+---
+
+#### ⚙️ **Probe Movement Logic**
+
+1️⃣ **Direction & Movement Rules**
+
+| Direction | `F` (Forward) | `B` (Backward) |
+|-----------|---------------|----------------|
+| `NORTH`   | (x, y+1)      | (x, y-1)       |
+| `SOUTH`   | (x, y-1)      | (x, y+1)       |
+| `EAST`    | (x+1, y)      | (x-1, y)       |
+| `WEST`    | (x-1, y)      | (x+1, y)       |
+
+2️⃣ **Turning Logic**
+
+| Current Direction | `L` (Turn Left) | `R` (Turn Right) |
+|-------------------|-----------------|------------------|
+| `NORTH`           | `WEST`          | `EAST`           |
+| `SOUTH`           | `EAST`          | `WEST`           |
+| `EAST`            | `NORTH`         | `SOUTH`          |
+| `WEST`            | `SOUTH`         | `NORTH`          |
+
+3️⃣ **Boundary & Obstacle Checks**
+- The probe **cannot move outside the grid**.
+- If an **obstacle is detected**, the probe **stops at the last valid position**.
+- The **API response should indicate if a move was blocked due to an obstacle**.
+
+---
+
+#### 🛑 **Edge Cases & Validations**
+- ✅ **Invalid Commands:** Return `400 Bad Request`.
+- ✅ **Probe Not Found:** Return `404 Not Found`.
+- ✅ **Move Into Obstacle:** Stop movement & return `422 Unprocessable Entity`.
+- ✅ **Out-of-Bounds Moves:** Reject with `400 Bad Request`.
+
+---
 
 # 🛠️ Test Approach Documentation
 
