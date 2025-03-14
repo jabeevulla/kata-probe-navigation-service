@@ -76,44 +76,51 @@ public class ProbeServiceTest {
     }
 
     @Test
-    public void givenExistingProbe_whenUpdateProbe_thenProbeIsUpdatedSuccessfully() {
+    public void givenExistingProbe_whenSaveOrUpdate_thenUpdateProbe() {
         // Given: Probe exists in database
-        when(probeRepository.findById(probeId)).thenReturn(Optional.of(mockProbe));
+        Probe existingProbe = new Probe();
+        existingProbe.setId(probeId);
+        existingProbe.setName("Old Probe");
+        existingProbe.setXPosition(5);
+        existingProbe.setYPosition(1);
+        existingProbe.setDirection(Probe.Direction.NORTH);
 
-        // When: Updating the probe’s position and direction
-        mockProbe.setXPosition(5);
-        mockProbe.setYPosition(1);
-        mockProbe.setDirection(Probe.Direction.SOUTH);
+        when(probeRepository.findById(probeId)).thenReturn(Optional.of(existingProbe));
+        when(probeRepository.save(any(Probe.class))).thenReturn(mockProbe);
 
-        when(probeRepository.save(mockProbe)).thenReturn(mockProbe);
-
-        Probe updatedProbe = probeService.updateProbe(probeId, mockProbe);
+        // When: Updating the probe
+        Probe updatedProbe = probeService.saveOrUpdateProbe(probeId, mockProbe);
 
         // Then: Verify updated probe attributes
         assertNotNull(updatedProbe);
-        assertEquals(5, updatedProbe.getXPosition());
-        assertEquals(1, updatedProbe.getYPosition());
-        assertEquals(Probe.Direction.SOUTH, updatedProbe.getDirection());
-
-        // Verify that repository methods were called
-        verify(probeRepository, times(1)).findById(probeId);
-        verify(probeRepository, times(1)).save(mockProbe);
-    }
-
-    @Test
-    public void givenNonExistentProbe_whenUpdateProbe_thenThrowDataNotFoundException() {
-        // Given: Probe does not exist
-        when(probeRepository.findById(probeId)).thenReturn(Optional.empty());
-
-        // When & Then: Expect DataNotFoundException
-        Exception exception = assertThrows(DataNotFoundException.class, () -> {
-            probeService.updateProbe(probeId, mockProbe);
-        });
-
-        assertEquals("Probe not found with ID: " + probeId, exception.getMessage());
+        assertEquals("Explorer-1", updatedProbe.getName());
+        assertEquals(2, updatedProbe.getXPosition());
+        assertEquals(3, updatedProbe.getYPosition());
+        assertEquals(Probe.Direction.NORTH, updatedProbe.getDirection());
 
         // Verify repository method calls
         verify(probeRepository, times(1)).findById(probeId);
-        verify(probeRepository, times(0)).save(any());
+        verify(probeRepository, times(1)).save(any(Probe.class));
+    }
+
+    @Test
+    public void givenNewProbe_whenSaveOrUpdate_thenCreateNewProbe() {
+        // Given: Probe does not exist
+        when(probeRepository.findById(probeId)).thenReturn(Optional.empty());
+        when(probeRepository.save(any(Probe.class))).thenReturn(mockProbe);
+
+        // When: Creating a new probe
+        Probe newProbe = probeService.saveOrUpdateProbe(probeId, mockProbe);
+
+        // Then: Verify the newly created probe
+        assertNotNull(newProbe);
+        assertEquals("Explorer-1", newProbe.getName());
+        assertEquals(2, newProbe.getXPosition());
+        assertEquals(3, newProbe.getYPosition());
+        assertEquals(Probe.Direction.NORTH, newProbe.getDirection());
+
+        // Verify repository method calls
+        verify(probeRepository, times(1)).findById(probeId);
+        verify(probeRepository, times(1)).save(any(Probe.class));
     }
 }
