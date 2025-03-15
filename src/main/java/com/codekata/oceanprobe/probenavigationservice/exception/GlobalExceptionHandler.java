@@ -1,5 +1,6 @@
 package com.codekata.oceanprobe.probenavigationservice.exception;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.HashMap;
 import java.util.Map;
 
+@Hidden
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -47,6 +49,37 @@ public class GlobalExceptionHandler {
         Map<String, String> errorResponse = new HashMap<>();
         errorResponse.put("message", ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+    }
+
+    /**
+     * Handles InvalidMoveException (400 - Bad Request)
+     */
+    @ExceptionHandler(InvalidMoveException.class)
+    public ResponseEntity<Map<String, String>> handleInvalidMoveException(InvalidMoveException ex) {
+        Map<String, String> errorResponse = new HashMap<>();
+        errorResponse.put("message", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+    }
+
+    /**
+     * Handles ObstacleEncounteredException (422 - Unprocessable Entity)
+     */
+    @ExceptionHandler(ObstacleEncounteredException.class)
+    public ResponseEntity<Map<String, String>> handleObstacleEncounteredException(ObstacleEncounteredException ex) {
+        Map<String, String> errorResponse = new HashMap<>();
+        errorResponse.put("message", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(errorResponse);
+    }
+
+    /**
+     * Handles DataNotFoundException (404 - Not Found)
+     */
+    @ExceptionHandler(DataNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleDataNotFoundException(DataNotFoundException ex) {
+        Map<String, String> errorResponse = new HashMap<>();
+        errorResponse.put("message", ex.getMessage());
+        logger.error(ex.getMessage(), ex);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
     }
 
     /**

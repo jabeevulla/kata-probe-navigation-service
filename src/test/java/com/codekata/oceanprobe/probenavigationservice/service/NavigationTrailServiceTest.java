@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -51,8 +52,17 @@ public class NavigationTrailServiceTest {
     @Test
     @Disabled("Skipping this test temporarily due to persistent issues")
     public void givenProbe_whenSavingMoveAsTrail_thenTrailIsSaved() {
+        NavigationTrail navigationTrail = new NavigationTrail(
+                UUID.randomUUID(),
+                probe,
+                1,
+                1,
+                Probe.Direction.EAST,
+                LocalDateTime.now()
+        );
+
         // When: Saving a movement as a trail
-        NavigationTrail savedTrail = navigationTrailService.saveMoveAsTrail(probeId, 1, 1, Probe.Direction.EAST);
+        NavigationTrail savedTrail = navigationTrailService.saveMoveAsTrail(navigationTrail);
 
         // Then: Verify the trail was saved correctly
         assertNotNull(savedTrail);
@@ -69,9 +79,25 @@ public class NavigationTrailServiceTest {
     @Test
     @Disabled("Skipping this test temporarily due to persistent issues")
     public void givenProbe_whenFetchingTrails_thenReturnTrailList() {
+        NavigationTrail navigationTrail1 = new NavigationTrail(
+                UUID.randomUUID(),
+                probe,
+                1,
+                1,
+                Probe.Direction.EAST,
+                LocalDateTime.now()
+        );
+        NavigationTrail navigationTrail2 = new NavigationTrail(
+                UUID.randomUUID(),
+                probe,
+                1,
+                1,
+                Probe.Direction.EAST,
+                LocalDateTime.now()
+        );
         // Given: Multiple navigation trail entries for the probe
-        navigationTrailService.saveMoveAsTrail(probeId, 1, 1, Probe.Direction.EAST);
-        navigationTrailService.saveMoveAsTrail(probeId, 2, 1, Probe.Direction.SOUTH);
+        navigationTrailService.saveMoveAsTrail(navigationTrail1);
+        navigationTrailService.saveMoveAsTrail(navigationTrail2);
 
         // When: Fetching trails
         List<NavigationTrail> trails = navigationTrailService.getNavigationTrail(probeId);

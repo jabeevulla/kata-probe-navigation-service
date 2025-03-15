@@ -17,3 +17,5 @@ spring:
     console:
       enabled: true
       path: /h2-console
+  springdoc:
+    override-with-generic-response: false
