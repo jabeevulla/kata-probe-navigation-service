@@ -316,7 +316,7 @@ This API allows registering a new **probe** in the ocean navigation system. The 
 ---
 **👉 API Endpoint**
 ```
-POST /api/probes/register
+POST /api/v1/probes/register
 ```
 
 **👉 Request Body**
@@ -361,57 +361,7 @@ POST /api/probes/register
 
 ---
 
-## 📚 API Documentation
-- Swagger UI: [API documentation](http://localhost:8080/swagger-ui.html)
-
-### **🚀 Register Probe API**
-This API allows registering a new **probe** in the ocean navigation system. The probe will be assigned a unique ID and initial position.
----
-### **👉 API Endpoint**
-```
-POST /api/probes/register
-```
-
-### **👉 Request Body**
-```json
-{
-  "name": "Explorer-1",
-  "xPosition": 0,
-  "yPosition": 0,
-  "direction": "NORTH"
-}
-```
-
-### **👉 Request Parameters**
-| Parameter   | Type     | Description                                                 | Required |
-|-------------|----------|-------------------------------------------------------------|----------|
-| `name`      | `string` | Name of the probe                                           | ✅ Yes    |
-| `xPosition` | `int`    | Initial X position on the grid                              | ✅ Yes    |
-| `yPosition` | `int`    | Initial Y position on the grid                              | ✅ Yes    |
-| `direction` | `enum`   | Initial facing direction (`NORTH`, `SOUTH`, `EAST`, `WEST`) | ✅ Yes    |
-
-### **👉 Response**
-#### ✅ **Success Response (201 Created)**
-```json
-{
-  "id": "550e8400-e29b-41d4-a716-446655440000",
-  "name": "Explorer-1",
-  "xPosition": 0,
-  "yPosition": 0,
-  "direction": "NORTH",
-  "status": "ACTIVE"
-}
-```
-
-#### ❌ **Error Responses**
-| HTTP Status       | Error Message               | Reason                                  |
-|-------------------|-----------------------------|-----------------------------------------|
-| `400 Bad Request` | `Invalid input data`        | Missing or incorrect request parameters |
-| `409 Conflict`    | `Probe name already exists` | A probe with the same name exists       |
-
----
-
-### 🚀 Probe Navigation API Design
+#### 🚀 Probe Navigation API Design
 
 The **Probe Navigation API** enables controlling a probe within a 2D grid environment. The probe can:
 - Move **forwards** and **backwards**.
@@ -428,7 +378,7 @@ The **Probe Navigation API** enables controlling a probe within a 2D grid enviro
 
 **Endpoint:**
 ```http
-POST /api/probes/{probeId}/move
+POST /api/v1/probes/{probeId}/move
 ```
 
 **Request Body:**
@@ -570,13 +520,14 @@ In this design, we document RTM within the **README** for simplicity. However, t
 #### 🔄 **RTM Structure in the Design**
 For this project, we will structure RTM as follows:
 
-| **Business Capability** | **Business Requirement**              | **Work Item (Epic, Feature, Story)**                                                                  | **Test Case**                                    | **Build** |
-|-------------------------|---------------------------------------|-------------------------------------------------------------------------------------------------------|--------------------------------------------------|-----------|
-| **Probe Navigation**    | "Register a probe"                    | Epic: **Register Probe** → Feature: **API for registration** → Story: **POST /api/probes/register**   | TC-001: Register a probe successfully            |           |
-| **Probe Maneuver**      | "Move probe while avoiding obstacles" | Epic: **Maneuver Probe** → Feature: **Obstacle detection** → Story: **Compute movement path**         | TC-002: Move probe, <br/>TC-003: Detect obstacle |           |
-| **Navigation Trail**    | "Retrieve navigation history"         | Epic: **Probe Navigation Trail** → Feature: **Store path history** → Story: **GET /api/probes/trail** | TC-004: Validate correct trail history           |           |
+| **Business Capability**  | **Business Requirement**                                  | **Work Item (Epic, Feature, Story)**                                                                  | **Test Case**                                    | **Build**                  | **Status**    |
+|--------------------------|-----------------------------------------------------------|-------------------------------------------------------------------------------------------------------|--------------------------------------------------|----------------------------|---------------|
+| **Probe Navigation**     | "Register a probe"                                        | Epic: **Register Probe** → Feature: **API for registration** → Story: **POST /api/probes/register**   | TC-001: Register a probe successfully            | Register Probe API         | ✅ Completed   |
+| **Probe Maneuver**       | "Move probe while avoiding obstacles"                     | Epic: **Maneuver Probe** → Feature: **Obstacle detection** → Story: **Compute movement path**         | TC-002: Move probe, <br/>TC-003: Detect obstacle | Prove navigation API /move | ✅ Completed   |
+| **Navigation Trail**     | "Retrieve navigation history"                             | Epic: **Probe Navigation Trail** → Feature: **Store path history** → Story: **GET /api/probes/trail** | TC-004: Validate correct trail history           | Prove navigation API /move | ✅ Completed   |
+| **Navigation streaming** | "Probe device should consume controller commands and move | Epic: **Probe device integration**                                                                    | ❌ OUT OF SCOPE                                   | ❌️OUT OF SCOPE             | ❌OUT OF SCOPE |
 
----
+
 ## 🚨 Known Issues
 
 ### 🛑 **1. Register Probe is failing due to data persistence error.**
