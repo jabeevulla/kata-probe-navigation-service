@@ -58,4 +58,8 @@ public class OceanFloorService {
         }
         logger.info("✅ Grid generation complete!");
     }
+
+    public Boolean isObstacle(int i, int i1) {
+        return null;
+    }
 }

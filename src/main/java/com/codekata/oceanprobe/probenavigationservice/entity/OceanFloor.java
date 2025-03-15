@@ -24,4 +24,5 @@ public class OceanFloor {
 
     @Column(name = "is_obstacle", nullable = false)
     private boolean isObstacle;
+
 }

@@ -23,24 +23,20 @@ public class NavigationTrailService {
 
     /**
      * Saves a movement as a navigation trail entry.
-     *
-     * @param probeId UUID of the probe
-     * @param x       New X position
-     * @param y       New Y position
-     * @param direction Direction after move
-     * @return Saved NavigationTrail
+     * @param navigationTrail
+     * @return
      */
-    public NavigationTrail saveMoveAsTrail(UUID probeId, int x, int y, Probe.Direction direction) {
+    public NavigationTrail saveMoveAsTrail(NavigationTrail navigationTrail) {
         // Fetch probe from repository or throw exception if not found
-        Probe probe = probeRepository.findById(probeId)
-                .orElseThrow(() -> new DataNotFoundException("Probe not found with ID: " + probeId));
+        Probe probe = probeRepository.findById(navigationTrail.getProbe().getId())
+                .orElseThrow(() -> new DataNotFoundException("Probe not found with ID: " + navigationTrail.getProbe().getId()));
 
         // Create navigation trail entry
         NavigationTrail trail = new NavigationTrail();
         trail.setProbe(probe);
-        trail.setXPosition(x);
-        trail.setYPosition(y);
-        trail.setDirection(direction);
+        trail.setXPosition(navigationTrail.getProbe().getXPosition());
+        trail.setYPosition(navigationTrail.getProbe().getYPosition());
+        trail.setDirection(navigationTrail.getProbe().getDirection());
         trail.setMovedAt(LocalDateTime.now());
 
         return navigationTrailRepository.save(trail);
