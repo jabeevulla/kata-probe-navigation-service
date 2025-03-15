@@ -577,3 +577,15 @@ For this project, we will structure RTM as follows:
 | **Navigation Trail**    | "Retrieve navigation history"         | Epic: **Probe Navigation Trail** → Feature: **Store path history** → Story: **GET /api/probes/trail** | TC-004: Validate correct trail history           |           |
 
 ---
+## 🚨 Known Issues
+
+### 🛑 **1. Register Probe is failing due to data persistence error.**
+#### **Issue Summary:**
+- This error occurs when **multiple transactions** try to **update the same entity** simultaneously
+- Reason could be around defining joins in the repository classes 
+
+#### **Error Log:**
+```sh
+org.springframework.orm.ObjectOptimisticLockingFailureException: 
+Row was updated or deleted by another transaction (or unsaved-value mapping was incorrect): 
+[com.codekata.oceanprobe.probenavigationservice.entity.Probe#76916b63-9b55-4d53-b37d-da43dd844f8d]
