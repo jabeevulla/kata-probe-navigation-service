@@ -56,8 +56,8 @@ public class OceanFloorRepositoryTest {
         assertEquals(15, oceanFloorList.size(), "Expected 15 rows in the ocean floor grid");
 
         // Then: Check sorting - first row's first entry should be (0,0)
-        assertEquals(0, oceanFloorList.get(0).getYPosition());
-        assertEquals(0, oceanFloorList.get(0).getXPosition());
+        assertEquals(0, oceanFloorList.get(0).getYyPosition());
+        assertEquals(0, oceanFloorList.get(0).getXxPosition());
 
         // Then: Obstacles should be identified correctly
         assertFalse(oceanFloorList.get(0).isObstacle(), "Expected (0,0) to be open space");

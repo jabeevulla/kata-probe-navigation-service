@@ -33,8 +33,8 @@ public class OceanFloorService {
 
         // Populate grid with obstacles (1 = obstacle, 0 = open space)
         for (OceanFloor cell : cells) {
-            if (cell.getXPosition() < width && cell.getYPosition() < height) {
-                grid[cell.getYPosition()][cell.getXPosition()] = cell.isObstacle() ? 1 : 0;
+            if (cell.getXxPosition() < width && cell.getYyPosition() < height) {
+                grid[cell.getYyPosition()][cell.getXxPosition()] = cell.isObstacle() ? 1 : 0;
             }
         }
 

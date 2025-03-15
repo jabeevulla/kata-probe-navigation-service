@@ -17,10 +17,10 @@ public class OceanFloor {
     private Long id;
 
     @Column(name = "x_position", nullable = false)
-    private int xPosition;
+    private int xxPosition;
 
     @Column(name = "y_position", nullable = false)
-    private int yPosition;
+    private int yyPosition;
 
     @Column(name = "is_obstacle", nullable = false)
     private boolean isObstacle;
