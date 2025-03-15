@@ -52,6 +52,37 @@ public class GlobalExceptionHandler {
     }
 
     /**
+     * Handles InvalidMoveException (400 - Bad Request)
+     */
+    @ExceptionHandler(InvalidMoveException.class)
+    public ResponseEntity<Map<String, String>> handleInvalidMoveException(InvalidMoveException ex) {
+        Map<String, String> errorResponse = new HashMap<>();
+        errorResponse.put("message", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+    }
+
+    /**
+     * Handles ObstacleEncounteredException (422 - Unprocessable Entity)
+     */
+    @ExceptionHandler(ObstacleEncounteredException.class)
+    public ResponseEntity<Map<String, String>> handleObstacleEncounteredException(ObstacleEncounteredException ex) {
+        Map<String, String> errorResponse = new HashMap<>();
+        errorResponse.put("message", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(errorResponse);
+    }
+
+    /**
+     * Handles DataNotFoundException (404 - Not Found)
+     */
+    @ExceptionHandler(DataNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleDataNotFoundException(DataNotFoundException ex) {
+        Map<String, String> errorResponse = new HashMap<>();
+        errorResponse.put("message", ex.getMessage());
+        logger.error(ex.getMessage(), ex);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+    }
+
+    /**
      * Handles generic runtime exceptions (500 Internal Server Error)
      */
     @ExceptionHandler(Exception.class)

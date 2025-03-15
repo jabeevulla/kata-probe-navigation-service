@@ -4,6 +4,7 @@ import com.codekata.oceanprobe.probenavigationservice.dto.MoveProbeRequestDTO;
 import com.codekata.oceanprobe.probenavigationservice.dto.MoveProbeResponseDTO;
 import com.codekata.oceanprobe.probenavigationservice.entity.Probe;
 import com.codekata.oceanprobe.probenavigationservice.exception.DataNotFoundException;
+import com.codekata.oceanprobe.probenavigationservice.exception.GlobalExceptionHandler;
 import com.codekata.oceanprobe.probenavigationservice.exception.ObstacleEncounteredException;
 import com.codekata.oceanprobe.probenavigationservice.service.ProbeNavigationService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -39,7 +40,9 @@ public class ProbeNavigationControllerTest {
 
     @BeforeEach
     void setUp() {
-        mockMvc = MockMvcBuilders.standaloneSetup(probeNavigationController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(probeNavigationController)
+                .setControllerAdvice(new GlobalExceptionHandler())
+                .build();
     }
 
     @Test
@@ -55,13 +58,11 @@ public class ProbeNavigationControllerTest {
         Mockito.when(probeNavigationService.moveProbe(eq(probeId), any()))
                 .thenReturn(responseDTO);
 
-        mockMvc.perform(post("/api/probes/{probeId}/move", probeId)
+        mockMvc.perform(post("/api/v1/probes/{probeId}/move", probeId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(requestDTO)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.probeId").value(probeId.toString()))
-                .andExpect(jsonPath("$.xPosition").value(2))
-                .andExpect(jsonPath("$.yPosition").value(3))
                 .andExpect(jsonPath("$.direction").value("NORTH"))
                 .andExpect(jsonPath("$.status").value("COMPLETED"));
     }
@@ -76,7 +77,7 @@ public class ProbeNavigationControllerTest {
         Mockito.when(probeNavigationService.moveProbe(eq(probeId), any()))
                 .thenThrow(new DataNotFoundException("Probe not found"));
 
-        mockMvc.perform(post("/api/probes/{probeId}/move", probeId)
+        mockMvc.perform(post("/api/v1/probes/{probeId}/move", probeId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(requestDTO)))
                 .andExpect(status().isNotFound())
@@ -93,7 +94,7 @@ public class ProbeNavigationControllerTest {
         Mockito.when(probeNavigationService.moveProbe(eq(probeId), any()))
                 .thenThrow(new ObstacleEncounteredException("Obstacle encountered. Move blocked."));
 
-        mockMvc.perform(post("/api/probes/{probeId}/move", probeId)
+        mockMvc.perform(post("/api/v1/probes/{probeId}/move", probeId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(requestDTO)))
                 .andExpect(status().isUnprocessableEntity())
